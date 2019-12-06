@@ -9,9 +9,6 @@ import mysql.FileDAOImpl;
 import org.apache.log4j.Logger;
 
 import java.io.File;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 
 import com.FinalOOP.DirFile;
 
@@ -61,7 +58,7 @@ public class Main{
 
         if (checkForExt(selected)){
             for(DirFile file : allFiles){
-                if (file.getFileType().toString().equals(selected)){
+                if (file.getFileType().equals(selected)){
                     System.out.println(file.getFileName());
                 }
             }
@@ -78,7 +75,7 @@ public class Main{
         ArrayList<DirFile> allFiles = fileDAO.getFileList();
 
         for(DirFile file : allFiles){
-            if (file.getFileType().toString().equals(selected)){
+            if (file.getFileType().equals(selected)){
                 return true;
             }
         } return false;
@@ -135,7 +132,7 @@ public class Main{
         System.out.println();
         if(myFile.isFile()) {
             String ext = myFile.getName();
-            String  extension = getExtension(ext).toString();
+            String  extension = getExtension(ext);
 
             DirFile dirFile = new DirFile();
             dirFile.setFileName(myFile.getName());
@@ -192,8 +189,6 @@ public class Main{
     //todo: right now it will add numbers as extensions. I need a way to filter out the numbers
      public static String getExtension(String filename) {
         if(filename.contains(".")){
-//               String extension = filename.filter(f -> f.contains("."))
-//                    .map(f -> f.substring(filename.lastIndexOf(".") + 1));
             String extension = filename.substring((filename.lastIndexOf(".") + 1));
               return extension;
         } else {
@@ -212,106 +207,4 @@ public class Main{
        return chosen;
     }
 
-
-//    private static void TestDAO(){
-//        FileDAO fileDAO = new FileDAOImpl();
-//
-////        File myFile = fileDAO.getFileById(2);
-////        logger.info(myFile.getFileName());
-//
-////        List<File> myFileList = fileDAO.getFileList();
-////        for(File file : myFileList){
-////            System.out.println(file.getFileName() + " " + file.getFileType());
-////        }
-//
-////        File newFile = new File();
-////        newFile.setFileID(6);
-////        newFile.setFileName("snakepics");
-////        newFile.setFileType("xml");
-////        newFile.setFileSize(8);
-////        newFile.setFilePath("root/tucker/pictures/animalPictures");
-////        newFile.setDirID(1);
-////
-////         if(fileDAO.updateFile(newFile)){
-////             System.out.println("FILE UPDATED");
-////         }
-//
-////         if(fileDAO.deleteFile(6)){
-////             System.out.println("FILE DELETED");
-//
-//    //    DirectoryDAO directoryDAO = new DirectoryDAOImpl();
-//
-////        Directory myDir = directoryDAO.getDirectoryById(1);
-////        logger.info(myDir.getDirName());
-//
-////        List<Directory> myDirList = directoryDAO.getDirectoryList();
-////        for(Directory dir : myDirList){
-////            System.out.println(dir.getDirName()+ " " + dir.getPath());
-////        }
-//
-////        Directory nDir = new Directory();
-////            nDir.setDirID(2);
-////            nDir.setDirName("profile pics");
-////            nDir.setDirSize(500);
-////            nDir.setNumberOfFiles(34);
-////            nDir.setPath("root/tucker/pictures/profile_pics");
-////
-////            if(directoryDAO.insertDirectory(nDir) != 0){
-////                System.out.printf("FILE INSERTED" );
-////            }
-//
-////        Directory nDir = new Directory();
-////        nDir.setDirID(2);
-////        nDir.setDirName("selfies");
-////        nDir.setDirSize(500);
-////        nDir.setNumberOfFiles(34);
-////        nDir.setPath("root/tucker/pictures/profile_pics");
-////
-////        if(directoryDAO.updateDirectory(nDir)){
-////            System.out.println("FILE UPDATED" );
-////        }
-//
-////        if(directoryDAO.deleteDirectory(3)){
-////            System.out.println("FILE DELETED" );
-////        }
-//
-//
-//         }
-
-
-
-
-
-//    private static Connection TestConnection(){
-//        String dbHost = "localhost";
-//        String dbName = "db2";
-//        String dbUser = "consoleUser";
-//        String dbPass = "qwe123$!";
-//        String useSSL = "false";
-//        String procBod = "true";
-//
-//        try {
-//            Class.forName("com.mysql.jdbc.Driver");
-//        } catch (ClassNotFoundException ex){
-//            logger.error("MySQL Driver not found!" + ex);
-//            return null;
-//        }
-//
-//        logger.info("MySQL Driver Registered");
-//        Connection connection = null;
-//
-//        try{
-//            connection = DriverManager.getConnection("jdbc:mysql://" +dbHost+":3306/" +dbName +"?useSSL=" + useSSL + "&noAccessToProcedureBodies=" + procBod, dbUser, dbPass);
-//        } catch(SQLException ex) {
-//            logger.error("Connection failed!" + ex);
-//            return null;
-//        }
-//        if(connection != null){
-//            logger.info("Successfully connected to MySQL database");
-//            return connection;
-//        } else {
-//            logger.info("Connection failed!");
-//            return null;
-//        }
-//    }
 }
